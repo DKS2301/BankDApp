@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { ethers } from "ethers";
 import { motion } from "framer-motion";
-import { contractAddress } from "../config";
-import { contractABI } from "../contractABI";
+
 import { FaUserPlus } from "react-icons/fa";
 
-const AccountForm = ({ signer }) => {
+const AccountForm = ({ signer ,contract}) => {
   const [name, setName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [initialDeposit, setInitialDeposit] = useState("");
@@ -28,7 +27,6 @@ const AccountForm = ({ signer }) => {
     setMessage("");
 
     try {
-      const contract = new ethers.Contract(contractAddress, contractABI, signer);
       const tx = await contract.createAccount(name, accountNumber, ethers.parseEther(initialDeposit), pin);
       await tx.wait();
       setMessage("✅ Account created successfully!");

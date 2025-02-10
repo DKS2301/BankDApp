@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { ethers } from "ethers";
-import { contractAddress } from "../config";
-import { contractABI } from "../contractABI";
 import { motion } from "framer-motion";
 import { FaMoneyBillWave, FaArrowDown, FaArrowUp } from "react-icons/fa";
 
-const DepositWithdraw = ({ signer }) => {
+const DepositWithdraw = ({ signer ,contract}) => {
   const [accountNumber, setAccountNumber] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [pin, setPIN] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -27,11 +26,10 @@ const DepositWithdraw = ({ signer }) => {
     setSuccessMessage("");
 
     try {
-      const contract = new ethers.Contract(contractAddress, contractABI, signer);
       const tx = 
         type === "deposit"
           ? await contract.deposit(accountNumber, ethers.parseEther(amount))
-          : await contract.withdraw(accountNumber, ethers.parseEther(amount));
+          : await contract.withdraw(accountNumber, ethers.parseEther(amount),pin);
 
       await tx.wait();
       setSuccessMessage(`✅ ${type === "deposit" ? "Deposit" : "Withdrawal"} successful!`);
@@ -68,6 +66,13 @@ const DepositWithdraw = ({ signer }) => {
         placeholder="Amount (ETH)"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
+        className="w-full p-2 mb-2 border rounded focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        type="password"
+        placeholder="PIN"
+        value={pin}
+        onChange={(e) => setPIN(e.target.value)}
         className="w-full p-2 mb-2 border rounded focus:ring-2 focus:ring-blue-500"
       />
 
