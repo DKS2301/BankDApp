@@ -22,8 +22,8 @@ function App() {
       <div className="min-h-screen flex flex-col  absolute inset-0 bg-gradient-to-r from-black via-gray-800 to-black opacity-100 backdrop-blur-xl">
         
         {/* Fixed Navbar - Stays at the same spot even when scrolling */}
-        <div className="fixed top-100 left-0 w-full z-50 bg-black bg-opacity-40 backdrop-blur-lg shadow-md">
-          <Navbar signer={signer} contract={contract} />
+        <div className="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-40 backdrop-blur-lg shadow-md">
+        <Navbar signer={signer} contract={contract} />
         </div>
 
         {/* Content - Prevent Overlap with Navbar */}

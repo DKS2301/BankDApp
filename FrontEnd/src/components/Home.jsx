@@ -6,7 +6,7 @@ import logo from "../assets/bank-logo.svg"; // Update your logo path if needed
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white font-[Montserrat] relative overflow-hidden">
+    <div className="min-h-screen my-20 bg-gray-900 text-white font-[Montserrat] relative overflow-hidden">
       {/* Background Blur Effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-black via-gray-800 to-black opacity-70 backdrop-blur-xl"></div>
 
