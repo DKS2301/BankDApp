@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { motion } from "framer-motion";
-import { FaWallet, FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
+import { FaWallet, FaCheckCircle, FaExclamationTriangle, FaSpinner } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const ConnectWallet = ({ setSigner }) => {
@@ -11,7 +11,7 @@ const ConnectWallet = ({ setSigner }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Extract the redirect path from the query string
+  // Extract redirect path from query string
   const params = new URLSearchParams(location.search);
   const redirectPath = params.get("redirect") || "/";
 
@@ -32,7 +32,7 @@ const ConnectWallet = ({ setSigner }) => {
       setAccount(accounts[0]);
       setSigner(signer);
 
-      // ✅ Navigate back to where the user was trying to go
+      // ✅ Navigate back to the intended page
       setTimeout(() => {
         navigate(redirectPath);
       }, 300);
@@ -62,44 +62,47 @@ const ConnectWallet = ({ setSigner }) => {
   }, []);
 
   return (
-    <motion.div
-      className="flex flex-col items-center justify-center bg-white shadow-lg p-5 rounded-lg w-80"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      {/* Icon */}
-      <div className="text-blue-600 text-3xl mb-3">
-        {account ? <FaCheckCircle className="text-green-500" /> : <FaWallet />}
-      </div>
+    <motion.div className="flex flex-col items-center justify-center h-screen">
+      <motion.div
+        className="w-full max-w-lg bg-white/10 backdrop-blur-md shadow-2xl p-8 rounded-3xl border border-white/20 text-white flex flex-col items-center"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* Icon & Title */}
+        <motion.h2 className="text-3xl font-bold text-teal-500 mb-6 flex items-center" animate={{ y: [10, 0] }}>
+          <FaWallet className="mr-3 text-teal-500" /> Connect Wallet
+        </motion.h2>
 
-      {/* Wallet Status */}
-      {account ? (
-        <p className="text-green-600 font-semibold text-sm text-center">
-          ✅ Connected: {account.slice(0, 6)}...{account.slice(-4)}
-        </p>
-      ) : (
-        <motion.button
-          className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition duration-300"
-          onClick={connectWallet}
-          disabled={loading}
-          whileHover={!loading ? { scale: 1.05 } : {}}
-          whileTap={!loading ? { scale: 0.95 } : {}}
-        >
-          {loading ? "Connecting..." : "Connect Wallet"}
-        </motion.button>
-      )}
+        {/* Wallet Status */}
+        {account ? (
+          <motion.p
+            className="text-teal-400 font-semibold text-sm text-center bg-teal-800/30 px-4 py-2 rounded-lg"
+            animate={{ opacity: [0, 1] }}
+          >
+            ✅ Connected: {account.slice(0, 6)}...{account.slice(-4)}
+          </motion.p>
+        ) : (
+          <motion.button
+            onClick={connectWallet}
+            className="bg-teal-600 text-white px-6 py-3 rounded-lg w-full text-lg flex justify-center items-center hover:bg-teal-700 transition disabled:bg-gray-400"
+            disabled={loading}
+            whileTap={{ scale: 0.95 }}
+          >
+            {loading ? <FaSpinner className="animate-spin" /> : "Connect Wallet"}
+          </motion.button>
+        )}
 
-      {/* Error Message */}
-      {error && (
-        <motion.div
-          className="mt-2 text-red-600 text-sm flex items-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          <FaExclamationTriangle className="mr-1" /> {error}
-        </motion.div>
-      )}
+        {/* Error Message */}
+        {error && (
+          <motion.div
+            className="mt-4 text-red-500 text-sm flex items-center bg-red-800/20 px-4 py-2 rounded-lg"
+            animate={{ opacity: [0, 1] }}
+          >
+            <FaExclamationTriangle className="mr-2" /> {error}
+          </motion.div>
+        )}
+      </motion.div>
     </motion.div>
   );
 };

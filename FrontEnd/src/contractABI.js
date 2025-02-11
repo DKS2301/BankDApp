@@ -5,15 +5,15 @@ export const contractABI =
 		"inputs": [
 			{
 				"indexed": true,
-				"internalType": "uint256",
-				"name": "accountNumber",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
 			},
 			{
 				"indexed": false,
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
+				"internalType": "uint256",
+				"name": "accountNumber",
+				"type": "uint256"
 			}
 		],
 		"name": "AccountCreated",
@@ -85,9 +85,9 @@ export const contractABI =
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_accountNumber",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
 			}
 		],
 		"name": "accountExistsCheck",
@@ -135,6 +135,11 @@ export const contractABI =
 				"internalType": "bool",
 				"name": "exists",
 				"type": "bool"
+			},
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -168,22 +173,22 @@ export const contractABI =
 		"inputs": [
 			{
 				"internalType": "string",
-				"name": "_name",
+				"name": "name",
 				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_accountNumber",
+				"name": "accountNumber",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_initialDeposit",
+				"name": "initialDeposit",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_pin",
+				"name": "pin",
 				"type": "uint256"
 			}
 		],

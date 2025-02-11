@@ -12,10 +12,11 @@ const AccountForm = ({ signer, contract }) => {
   const [message, setMessage] = useState("");
   const [progress, setProgress] = useState(0);
 
+
   const createAccount = async () => {
     setMessage("");
     setProgress(0);
-
+  
     if (!contract) {
       setMessage("⚠️ Contract not initialized.");
       return;
@@ -28,20 +29,20 @@ const AccountForm = ({ signer, contract }) => {
       setMessage("⚠️ All fields are required.");
       return;
     }
-
+  
     try {
       setLoading(true);
       setProgress(25);
-
-      const accountNum = ethers.toBigInt(accountNumber);
-      const exists = await contract.accountExistsCheck(accountNum);
-
-      if (exists) {
-        setMessage("❌ Account already exists. Please check the account number.");
+  
+      const userAddress = await signer.getAddress(); // Get the connected MetaMask address
+      const hasAccount = await contract.accountExistsCheck(userAddress);
+  
+      if (hasAccount) {
+        setMessage("❌ You have already created an account.");
         setLoading(false);
         return;
       }
-
+  
       setProgress(50);
       const tx = await contract.createAccount(name, accountNumber, ethers.parseEther(initialDeposit), pin);
       await tx.wait();
@@ -54,7 +55,7 @@ const AccountForm = ({ signer, contract }) => {
       setLoading(false);
     }
   };
-
+  
   return (
     <motion.div className="flex flex-col items-center justify-center h-screen ">
       <motion.div className="w-full max-w-lg bg-white/10 backdrop-blur-md shadow-2xl p-8 rounded-3xl border border-white/20 text-white flex flex-col items-center"
