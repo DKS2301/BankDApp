@@ -2,11 +2,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaShieldAlt, FaEthereum, FaUsers } from "react-icons/fa";
-import logo from "../assets/bank-logo.svg"; // Update your logo path if needed
+import logo from "../assets/bank-logo.svg"; 
 
 const Home = () => {
   return (
-    <div className="min-h-screen my-20 bg-gray-900 text-white font-[Montserrat] relative overflow-hidden">
+    <div className="min-h-screen my-1 bg-gray-900 text-white font-[Montserrat] relative overflow-hidden">
       {/* Background Blur Effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-black via-gray-800 to-black opacity-70 backdrop-blur-xl"></div>
 
@@ -21,7 +21,7 @@ const Home = () => {
       {/* Hero Section */}
       <div className="container mx-auto px-6 py-20 text-center relative z-10">
         <motion.h1
-          className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-emerald-500"
+          className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-emerald-500 font-stretch-condensed"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -30,7 +30,7 @@ const Home = () => {
         </motion.h1>
 
         <motion.p
-          className="text-lg md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto"
+          className="text-lg md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto font-mono"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
@@ -68,7 +68,7 @@ const Home = () => {
       {/* Features Section */}
       <div className="container mx-auto px-6 py-16 relative z-10">
         <motion.h2
-          className="text-4xl font-bold text-center mb-12 text-teal-400"
+          className="text-4xl font-bold text-center mb-12 text-teal-400 font-mono"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
@@ -77,7 +77,6 @@ const Home = () => {
         </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Feature 1 */}
           <motion.div
             className="p-6 rounded-lg shadow-lg text-center backdrop-blur-md bg-black bg-opacity-40 border border-teal-500"
             initial={{ opacity: 0, y: 50 }}
@@ -86,10 +85,9 @@ const Home = () => {
           >
             <FaShieldAlt className="text-5xl text-teal-400 mx-auto mb-4" />
             <h3 className="text-2xl font-semibold mb-4">Secure</h3>
-            <p className="text-gray-300">Your assets are protected with top-tier blockchain security.</p>
+            <p className="text-gray-300 font-mono">Your assets are protected with top-tier blockchain security.</p>
           </motion.div>
 
-          {/* Feature 2 */}
           <motion.div
             className="p-6 rounded-lg shadow-lg text-center backdrop-blur-md bg-black bg-opacity-40 border border-emerald-500"
             initial={{ opacity: 0, y: 50 }}
@@ -98,10 +96,9 @@ const Home = () => {
           >
             <FaEthereum className="text-5xl text-emerald-400 mx-auto mb-4" />
             <h3 className="text-2xl font-semibold mb-4">Transparent</h3>
-            <p className="text-gray-300">All transactions are publicly recorded on the blockchain.</p>
+            <p className="text-gray-300 font-mono">All transactions are publicly recorded on the blockchain.</p>
           </motion.div>
 
-          {/* Feature 3 */}
           <motion.div
             className="p-6 rounded-lg shadow-lg text-center backdrop-blur-md bg-black bg-opacity-40 border border-teal-500"
             initial={{ opacity: 0, y: 50 }}
@@ -110,7 +107,7 @@ const Home = () => {
           >
             <FaUsers className="text-5xl text-teal-400 mx-auto mb-4" />
             <h3 className="text-2xl font-semibold mb-4">Decentralized</h3>
-            <p className="text-gray-300">Own your funds without the need for a middleman.</p>
+            <p className="text-gray-300 font-mono">Own your funds without the need for a middleman.</p>
           </motion.div>
         </div>
       </div>
@@ -124,7 +121,6 @@ const Home = () => {
       >
         <p className="text-gray-300">&copy; {new Date().getFullYear()} DeFi Vault. All rights reserved.</p>
 
-        {/* Social Media Links */}
         <div className="flex justify-center space-x-4 mt-4">
           <a href="#" className="text-teal-400 hover:text-teal-300">Twitter</a>
           <a href="#" className="text-emerald-400 hover:text-emerald-300">GitHub</a>

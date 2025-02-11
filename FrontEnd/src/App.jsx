@@ -11,23 +11,19 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { contractAddress } from "./config";
 import { contractABI } from "./contractABI";
 import { ethers } from "ethers";
-
 function App() {
   const [signer, setSigner] = useState(null);
   const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
   return (
     <Router>
-      {/* Full Page Layout */}
-      <div className="min-h-screen flex flex-col  absolute inset-0 bg-gradient-to-r from-black via-gray-800 to-black opacity-100 backdrop-blur-xl">
+      <div className="min-h-screen flex flex-col bg-gradient-to-r from-black via-gray-800 to-black opacity-100 backdrop-blur-xl">
         
-        {/* Fixed Navbar - Stays at the same spot even when scrolling */}
         <div className="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-40 backdrop-blur-lg shadow-md">
-        <Navbar signer={signer} contract={contract} />
+          <Navbar signer={signer} contract={contract} />
         </div>
 
-        {/* Content - Prevent Overlap with Navbar */}
-        <div className="flex-1 flex flex-col w-full pt-28 -mt-30">
+        <div className="flex-1 flex flex-col w-full pt-20"> {/* 🛠️ Use pt-20 to push content below navbar */}
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
