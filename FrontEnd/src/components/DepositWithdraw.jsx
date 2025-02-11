@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { motion } from "framer-motion";
 import { FaMoneyBillWave, FaArrowDown, FaArrowUp } from "react-icons/fa";
 
-const DepositWithdraw = ({ signer ,contract}) => {
+const DepositWithdraw = ({ signer, contract }) => {
   const [accountNumber, setAccountNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [pin, setPIN] = useState("");
@@ -12,7 +12,6 @@ const DepositWithdraw = ({ signer ,contract}) => {
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleTransaction = async (type) => {
-
     if (!signer) {
       setError("⚠️ Please connect your wallet first!");
       return;
@@ -27,10 +26,10 @@ const DepositWithdraw = ({ signer ,contract}) => {
     setSuccessMessage("");
 
     try {
-      const tx = 
+      const tx =
         type === "deposit"
-          ? await contract.deposit(accountNumber, ethers.parseEther(amount),pin)
-          : await contract.withdraw(accountNumber, ethers.parseEther(amount),pin);
+          ? await contract.deposit(accountNumber, ethers.parseEther(amount), pin)
+          : await contract.withdraw(accountNumber, ethers.parseEther(amount), pin);
 
       await tx.wait();
       setSuccessMessage(`✅ ${type === "deposit" ? "Deposit" : "Withdrawal"} successful!`);
@@ -43,83 +42,85 @@ const DepositWithdraw = ({ signer ,contract}) => {
   };
 
   return (
-    <motion.div
-      className="bg-white p-10 rounded-lg shadow-md w-150  mt-10 flex flex-col items-center"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      {/* Header */}
-      <h2 className="text-xl font-semibold mb-3 flex items-center">
-        <FaMoneyBillWave className="mr-2 text-green-500" /> Deposit / Withdraw
-      </h2>
-
-      {/* Inputs */}
-      <input
-        type="number"
-        placeholder="Account Number"
-        value={accountNumber}
-        onChange={(e) => setAccountNumber(e.target.value)}
-        className="w-full p-2 mb-2 border rounded focus:ring-2 focus:ring-blue-500"
-      />
-      <input
-        type="number"
-        placeholder="Amount (ETH)"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        className="w-full p-2 mb-2 border rounded focus:ring-2 focus:ring-blue-500"
-      />
-      <input
-        type="password"
-        placeholder="PIN"
-        value={pin}
-        onChange={(e) => setPIN(e.target.value)}
-        className="w-full p-2 mb-2 border rounded focus:ring-2 focus:ring-blue-500"
-      />
-
-      {/* Buttons */}
-      <motion.button
-        className="bg-yellow-600 text-white px-4 py-2 rounded w-full flex items-center justify-center"
-        onClick={() => handleTransaction("deposit")}
-        disabled={loading}
-        whileHover={!loading ? { scale: 1.05 } : {}}
-        whileTap={!loading ? { scale: 0.95 } : {}}
+    <div className="flex items-center justify-center min-h-screen">
+      <motion.div
+        className="backdrop-blur-md bg-white/10 p-8 rounded-xl shadow-xl w-full max-w-lg text-white text-center border border-gray-600"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
       >
-        {loading ? "Processing..." : <><FaArrowDown className="mr-2" /> Deposit</>}
-      </motion.button>
+        {/* Header */}
+        <h2 className="text-3xl font-bold mb-6 flex text-teal-400 items-center justify-center"> Deposit / Withdraw
+        </h2>
 
-      <motion.button
-        className="bg-red-600 text-white px-4 py-2 rounded w-full mt-2 flex items-center justify-center"
-        onClick={() => handleTransaction("withdraw")}
-        disabled={loading}
-        whileHover={!loading ? { scale: 1.05 } : {}}
-        whileTap={!loading ? { scale: 0.95 } : {}}
-      >
-        {loading ? "Processing..." : <><FaArrowUp className="mr-2" /> Withdraw</>}
-      </motion.button>
+        {/* Inputs */}
+        <div className="space-y-4">
+          <input
+            type="number"
+            placeholder="Account Number"
+            value={accountNumber}
+            onChange={(e) => setAccountNumber(e.target.value)}
+            className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-400 text-white placeholder-gray-400"
+          />
+          <input
+            type="number"
+            placeholder="Amount (ETH)"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-400 text-white placeholder-gray-400"
+          />
+          <input
+            type="password"
+            placeholder="PIN"
+            value={pin}
+            onChange={(e) => setPIN(e.target.value)}
+            className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-400 text-white placeholder-gray-400"
+          />
+        </div>
 
-      {/* Error Message */}
-      {error && (
-        <motion.div
-          className="mt-3 text-red-600 text-sm flex items-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          ❌ {error}
-        </motion.div>
-      )}
+        {/* Buttons */}
+        <div className="mt-6 flex flex-col space-y-3">
+          <motion.button
+            className="bg-green-500 text-white px-6 py-3 rounded-lg flex items-center justify-center shadow-lg transition-transform transform hover:scale-105"
+            onClick={() => handleTransaction("deposit")}
+            disabled={loading}
+            whileTap={{ scale: 0.95 }}
+          >
+            {loading ? "Processing..." : <><FaArrowDown className="mr-2" /> Deposit</>}
+          </motion.button>
 
-      {/* Success Message */}
-      {successMessage && (
-        <motion.div
-          className="mt-3 text-green-600 text-sm flex items-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          ✅ {successMessage}
-        </motion.div>
-      )}
-    </motion.div>
+          <motion.button
+            className="bg-red-500 text-white px-6 py-3 rounded-lg flex items-center justify-center shadow-lg transition-transform transform hover:scale-105"
+            onClick={() => handleTransaction("withdraw")}
+            disabled={loading}
+            whileTap={{ scale: 0.95 }}
+          >
+            {loading ? "Processing..." : <><FaArrowUp className="mr-2" /> Withdraw</>}
+          </motion.button>
+        </div>
+
+        {/* Messages */}
+        {error && (
+          <motion.div
+            className="mt-4 text-red-400 text-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            ❌ {error}
+          </motion.div>
+        )}
+
+        {successMessage && (
+          <motion.div
+            className="mt-4 text-green-400 text-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            ✅ {successMessage}
+          </motion.div>
+        )}
+      </motion.div>
+    </div>
   );
 };
 

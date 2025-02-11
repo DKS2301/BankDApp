@@ -19,7 +19,7 @@ function App() {
   return (
     <Router>
       {/* Full Page Layout */}
-      <div className="min-h-screen flex flex-col bg-gray-900 text-white">
+      <div className="min-h-screen flex flex-col  absolute inset-0 bg-gradient-to-r from-black via-gray-800 to-black opacity-100 backdrop-blur-xl">
         
         {/* Fixed Navbar - Stays at the same spot even when scrolling */}
         <div className="fixed top-100 left-0 w-full z-50 bg-black bg-opacity-40 backdrop-blur-lg shadow-md">
@@ -27,7 +27,7 @@ function App() {
         </div>
 
         {/* Content - Prevent Overlap with Navbar */}
-        <div className="flex-1 flex flex-col w-full pt-28">
+        <div className="flex-1 flex flex-col w-full pt-28 -mt-30">
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
