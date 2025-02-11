@@ -1,14 +1,13 @@
-
 # **BankDApp**  
 
 ## **Overview**  
-**BankDApp** is a decentralized banking application built using **Solidity**, **React (Vite.js)**, **Tailwind CSS**, and **ethers.js**. The application allows users to interact with a smart contract on the Ethereum blockchain for banking operations such as account creation, deposits, withdrawals, balance checks, and fund transfers.  
+**BankDApp** is a decentralized banking application built using **Solidity**, **React (Vite.js)**, **Tailwind CSS**, and **ethers.js**. The application allows users to interact with a **smart contract deployed via Remix** on **Ganache** for banking operations such as account creation, deposits, withdrawals, balance checks, and fund transfers.  
 
 ## **Features**  
-- **Decentralized Banking System**: Users can manage their accounts securely on the blockchain.  
-- **MetaMask Authentication**: Enables secure interaction with the Ethereum network.  
-- **Smart Contract Integration**: Uses **ethers.js** to interact with a Solidity-based banking contract.  
-- **User-Friendly UI**: Built with **React (Vite.js)** and **Tailwind CSS** for a responsive and modern interface.  
+- **Decentralized Banking System**: Users can securely manage accounts on the blockchain.  
+- **MetaMask Authentication**: Secure interaction with the Ethereum blockchain.  
+- **Smart Contract Deployment**: Uses **Remix** for development and **Ganache** as a local blockchain network.  
+- **User-Friendly UI**: Built with **React (Vite.js)** and **Tailwind CSS** for a responsive interface.  
 - **Core Banking Functions**:  
   - Create an account  
   - Check balance  
@@ -22,19 +21,31 @@
 - Tailwind CSS  
 - ethers.js  
 
-### **Backend (Smart Contract)**  
+### **Smart Contract Development**  
 - Solidity  
-- Hardhat  
+- Remix IDE  
+- Ganache  
+- MetaMask  
 
-## **Installation**  
+## **Installation & Setup**  
 
 ### **Prerequisites**  
 Ensure you have the following installed:  
 - **Node.js** and **npm/yarn**  
 - **MetaMask** browser extension  
-- **Hardhat** for smart contract development  
+- **Ganache** for local blockchain deployment  
+- **Remix IDE** for deploying the smart contract  
 
-### **Setup**  
+### **Smart Contract Deployment**  
+1. **Open Ganache** and create a new workspace.  
+2. Copy the **RPC Server URL** (e.g., `http://127.0.0.1:7545`).  
+3. Open **Remix IDE** (https://remix.ethereum.org/).  
+4. Paste the **Solidity smart contract** into a new file in Remix.  
+5. Compile the contract using the Solidity compiler.  
+6. Deploy the contract using the **Injected Web3** environment and connect it to Ganache.  
+7. Copy the deployed contract address for frontend integration.  
+
+### **Frontend Setup**  
 
 1. **Clone the repository**  
    ```bash
@@ -47,32 +58,26 @@ Ensure you have the following installed:
    npm install
    ```
 
-3. **Run the development server**  
+3. **Update Contract Address**  
+   - Open the frontend source file where the contract is referenced (`src/utils/contract.js` or equivalent).  
+   - Replace the contract address with the deployed address from Remix.  
+
+4. **Run the development server**  
    ```bash
    npm run dev
    ```
 
-4. **Deploy the smart contract** (if modifying or testing)  
-   ```bash
-   npx hardhat run scripts/deploy.js --network localhost
-   ```
-
 ## **Usage**  
-1. **Connect MetaMask** to interact with the banking contract.  
-2. **Create an account** through the UI.  
-3. **Perform banking operations** like deposits, withdrawals, and transfers.  
-4. **Check transaction history** directly from the blockchain.  
+1. **Connect MetaMask** to the **Ganache** network using the RPC URL (`http://127.0.0.1:7545`).  
+2. **Import Ganache accounts** into MetaMask using private keys from Ganache.  
+3. **Perform banking operations** like deposits, withdrawals, and transfers using the deployed smart contract.  
+4. **Check transactions in Remix or MetaMask** to verify successful execution.  
 
-## **Smart Contract Details**  
-The smart contract is written in Solidity and includes functions for:  
+## **Smart Contract Functions**  
 - **Creating accounts**  
 - **Depositing and withdrawing funds**  
 - **Transferring funds between accounts**  
-- **Retrieving account balances**  
+- **Checking account balances**  
 
 ## **License**  
 This project is licensed under the **MIT License**.  
-
----
-
-This README follows best practices by providing a clear **overview, features, setup instructions, and usage details**. Let me know if you want any modifications!
