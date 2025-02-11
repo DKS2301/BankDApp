@@ -8,34 +8,60 @@ const BalanceChecker = ({ contract, signer }) => {
   const [balance, setBalance] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleCheckBalance = async () => {
     setError("");
     setBalance(null);
-
+  
     if (!accountNumber || !pin) {
-      setError("Please enter both Account Number and PIN.");
+      setMessage("⚠️Please enter both Account Number and PIN.");
       return;
     }
-
+  
     if (!signer) {
-      setError("Wallet not connected. Please connect your wallet.");
+      setMessage("⚠️Wallet not connected. Please connect your wallet.");
       return;
     }
-
+  
+    const accountNum = parseInt(accountNumber);
+    const pinNum = parseInt(pin);
+  
+    if (isNaN(accountNum) || isNaN(pinNum)) {
+      setMessage("❌Invalid input. Please enter numeric values.");
+      return;
+    }
+  
     try {
-        console.log(accountNumber,pin,)
+      console.log("Checking balance for:", accountNum, pinNum);
+      const exists = await contract.accountExistsCheck(ethers.toBigInt(accountNumber));
+
+      console.log("Account exists:", exists);
+  
+      if (!exists) {
+        setError("❌Account does not exist. Please check the account number.");
+        return;
+      }
       setLoading(true);
-      const balance = await contract.checkBalance(accountNumber, pin); // Assuming getBalance(accountNumber, pin) exists in Solidity
-      const formattedbal = ethers.formatEther(balance)
-      setBalance(formattedbal)// Convert wei to ether
+
+      const balance = await contract.checkBalance(accountNum, pinNum);
+      console.log("Raw balance:", balance);
+  
+      if (!balance) {
+        throw new Error("Invalid response from contract.");
+      }
+  
+      const formattedBal = ethers.formatEther(balance);
+      setBalance(formattedBal);
     } catch (err) {
       setError("Failed to fetch balance. Check details and try again.");
-      console.error(err);
+      console.error("Error fetching balance:", err);
     } finally {
       setLoading(false);
     }
+    
   };
+  
 
   return (
     <motion.div
@@ -106,6 +132,15 @@ const BalanceChecker = ({ contract, signer }) => {
           <p className="text-lg font-bold text-green-600">{balance} ETH</p>
         </motion.div>
       )}
+      {message && (
+      <motion.div
+        className="mt-4 text-center text-sm font-semibold text-gray-700"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        {message}
+      </motion.div>
+    )}
     </motion.div>
   );
 };

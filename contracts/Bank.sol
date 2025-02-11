@@ -65,8 +65,9 @@ contract Bank {
 
     function deposit(
         uint256 _accountNumber,
-        uint256 _amount
-    ) public accountExists(_accountNumber) {
+        uint256 _amount,
+        uint256 _pin
+    ) public accountExists(_accountNumber) correctPin(_accountNumber, _pin) {
         require(_amount > 0, "Deposit amount must be greater than zero");
         accounts[_accountNumber].balance += _amount;
         emit Deposit(_accountNumber, _amount);

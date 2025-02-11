@@ -86,6 +86,25 @@ export const contractABI =
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "_accountNumber",
+				"type": "uint256"
+			}
+		],
+		"name": "accountExistsCheck",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}

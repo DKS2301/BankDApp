@@ -5,15 +5,16 @@ import { FaMoneyBillWave, FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const DepositWithdraw = ({ signer ,contract}) => {
   const [accountNumber, setAccountNumber] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [pin, setPIN] = useState(0);
+  const [amount, setAmount] = useState("");
+  const [pin, setPIN] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleTransaction = async (type) => {
+
     if (!signer) {
-      setError("❌ Please connect your wallet first!");
+      setError("⚠️ Please connect your wallet first!");
       return;
     }
     if (!accountNumber || !amount || amount <= 0) {
@@ -28,7 +29,7 @@ const DepositWithdraw = ({ signer ,contract}) => {
     try {
       const tx = 
         type === "deposit"
-          ? await contract.deposit(accountNumber, ethers.parseEther(amount))
+          ? await contract.deposit(accountNumber, ethers.parseEther(amount),pin)
           : await contract.withdraw(accountNumber, ethers.parseEther(amount),pin);
 
       await tx.wait();

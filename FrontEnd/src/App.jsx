@@ -12,17 +12,22 @@ import { contractAddress } from "./config";
 import { contractABI } from "./contractABI";
 import { ethers } from "ethers";
 
-
 function App() {
   const [signer, setSigner] = useState(null);
   const contract = new ethers.Contract(contractAddress, contractABI, signer);
+
   return (
     <Router>
-      <div className="min-h-screen bg-gray-100 flex flex-col">
-        {/* ✅ Navbar should be inside Router to allow navigation */}
-        <Navbar signer={signer} contract={contract} />
+      {/* Full Page Layout */}
+      <div className="min-h-screen flex flex-col bg-gray-900 text-white">
+        
+        {/* Fixed Navbar - Stays at the same spot even when scrolling */}
+        <div className="fixed top-100 left-0 w-full z-50 bg-black bg-opacity-40 backdrop-blur-lg shadow-md">
+          <Navbar signer={signer} contract={contract} />
+        </div>
 
-        <div className="flex justify-center p-5">
+        {/* Content - Prevent Overlap with Navbar */}
+        <div className="flex-1 flex flex-col w-full pt-28">
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
@@ -33,7 +38,7 @@ function App() {
               path="/create-account"
               element={
                 <ProtectedRoute signer={signer}>
-                  <AccountForm signer={signer}  contract={contract}  />
+                  <AccountForm signer={signer} contract={contract} />
                 </ProtectedRoute>
               }
             />
@@ -41,7 +46,7 @@ function App() {
               path="/check-balance"
               element={
                 <ProtectedRoute signer={signer}>
-                  <BalanceChecker signer={signer}  contract={contract} />
+                  <BalanceChecker signer={signer} contract={contract} />
                 </ProtectedRoute>
               }
             />
@@ -49,7 +54,7 @@ function App() {
               path="/deposit-withdraw"
               element={
                 <ProtectedRoute signer={signer}>
-                  <DepositWithdraw signer={signer}  contract={contract} />
+                  <DepositWithdraw signer={signer} contract={contract} />
                 </ProtectedRoute>
               }
             />
@@ -57,7 +62,7 @@ function App() {
               path="/transfer-funds"
               element={
                 <ProtectedRoute signer={signer}>
-                  <TransferFunds signer={signer}  contract={contract} />
+                  <TransferFunds signer={signer} contract={contract} />
                 </ProtectedRoute>
               }
             />

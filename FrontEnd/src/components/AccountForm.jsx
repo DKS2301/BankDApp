@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ethers } from "ethers";
 import { motion } from "framer-motion";
-
 import { FaUserPlus } from "react-icons/fa";
 
 const AccountForm = ({ signer ,contract}) => {
@@ -13,6 +12,10 @@ const AccountForm = ({ signer ,contract}) => {
   const [message, setMessage] = useState("");
 
   const createAccount = async () => {
+    if (!contract) {
+      setError("Contract not initialized.");
+      return;
+  }
     if (!signer) {
       setMessage("⚠️ Please connect your wallet first.");
       return;
@@ -22,11 +25,18 @@ const AccountForm = ({ signer ,contract}) => {
       setMessage("⚠️ All fields are required.");
       return;
     }
-
-    setLoading(true);
-    setMessage("");
-
+    
     try {
+      const accountNum = ethers.toBigInt(accountNumber); 
+      const exists = await contract.accountExistsCheck(accountNum);
+
+      console.log("Account exists:", exists);
+
+      if (exists) {
+        setMessage("❌Account already exist. Please check the account number.");
+        return;
+      }
+      setLoading(true);
       const tx = await contract.createAccount(name, accountNumber, ethers.parseEther(initialDeposit), pin);
       await tx.wait();
       setMessage("✅ Account created successfully!");
