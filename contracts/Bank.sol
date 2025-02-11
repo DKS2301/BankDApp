@@ -8,11 +8,46 @@ contract Bank {
         uint256 balance;
         uint256 pin;
         bool exists;
+        address owner;
     }
 
     mapping(uint256 => Account) public accounts;
+    mapping(address => bool) private hasAccount; // Track which addresses have created an account
 
-    event AccountCreated(uint256 indexed accountNumber, string name);
+    event AccountCreated(address indexed owner, uint accountNumber);
+
+    function createAccount(
+        string memory name,
+        uint accountNumber,
+        uint initialDeposit,
+        uint pin
+    ) public {
+        require(
+            !hasAccount[msg.sender],
+            "You have already created an account."
+        ); // Prevent multiple accounts per address
+        require(
+            accounts[accountNumber].owner == address(0),
+            "Account number already exists."
+        );
+
+        accounts[accountNumber] = Account(
+            name,
+            accountNumber,
+            initialDeposit,
+            pin,
+            true,
+            msg.sender
+        );
+        hasAccount[msg.sender] = true; // Mark this address as having created an account
+
+        emit AccountCreated(msg.sender, accountNumber);
+    }
+
+    function accountExistsCheck(address user) public view returns (bool) {
+        return hasAccount[user]; // Return whether an account exists for the given address
+    }
+
     event Deposit(uint256 indexed accountNumber, uint256 amount);
     event Withdrawal(uint256 indexed accountNumber, uint256 amount);
     event Transfer(
@@ -29,25 +64,6 @@ contract Bank {
     modifier correctPin(uint256 _accountNumber, uint256 _pin) {
         require(accounts[_accountNumber].pin == _pin, "Invalid Pin");
         _;
-    }
-
-    function createAccount(
-        string memory _name,
-        uint256 _accountNumber,
-        uint256 _initialDeposit,
-        uint256 _pin
-    ) public {
-        require(!accounts[_accountNumber].exists, "Account already exists");
-
-        accounts[_accountNumber] = Account({
-            name: _name,
-            accountNumber: _accountNumber,
-            balance: _initialDeposit,
-            pin: _pin,
-            exists: true
-        });
-
-        emit AccountCreated(_accountNumber, _name);
     }
 
     function checkBalance(
